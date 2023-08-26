@@ -1,0 +1,4 @@
+requests
+pymongo
+mastodon.py
+bs4

@@ -1,0 +1,38 @@
+#Specify the version of the yml file
+version: '3.0'
+
+# here we specify the services, componing the pipeline
+services:
+  tweet_collector:
+    build: ./tweet_collector/
+    container_name: reddit_collect
+    volumes:
+      - ./tweet_collector:/app
+    depends_on:
+      - mongodb  
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongo_social
+    ports:
+      - 27017:27017
+
+  postgresdb:
+    image: postgres
+    container_name: postgres_container
+    ports:
+    - 5555:5432
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postres_pw
+    - POSTGRES_DB=social_sentimentDB
+  
+  etl:
+    build: ./etl_job/
+    container_name: etl_py
+    volumes:
+      - ./etl_job:/app
+    depends_on:
+      - mongodb
+      - postgresdb
+

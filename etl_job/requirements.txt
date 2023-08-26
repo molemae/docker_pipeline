@@ -1,0 +1,5 @@
+pymongo
+pandas
+psycopg2
+sqlalchemy
+vaderSentiment
